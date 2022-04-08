@@ -19,15 +19,15 @@ export class App {
     useMiddlewares() {
         this.app.use(express.json());
 
-        const allowedOrigins = [process.env.FRONTEND_ORIGIN, process.env.ADMIN_ORIGIN];
+        // const allowedOrigins = [process.env.FRONTEND_ORIGIN, process.env.ADMIN_ORIGIN];
         this.app.use(cors({
-            origin: function (origin, callback) {
-                if (allowedOrigins.includes(origin)) {
-                    callback(null, true)
-                } else {
-                    callback(new Error('Not allowed by CORS'))
-                }
-            },
+            // origin: function (origin, callback) {
+            //     if (allowedOrigins.includes(origin)) {
+            //         callback(null, true)
+            //     } else {
+            //         callback(new Error('Not allowed by CORS'))
+            //     }
+            // },
             allowedHeaders: ['Content-Type', 'Authorization']
         }));
 
