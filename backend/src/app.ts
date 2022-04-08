@@ -4,6 +4,8 @@ import { useExpressServer } from "routing-controllers";
 import { CustomErrorHandler } from "./middlewares/Errors/Error.service";
 import { ICustomLogger } from "./middlewares/Logger/Logger.interface";
 import { CustomLogger } from "./middlewares/Logger/Logger.service";
+import { AppDataSource } from "./database/index";
+import { TypeORMError } from "typeorm";
 
 export class App {
     app: Express;
@@ -37,20 +39,33 @@ export class App {
         })
     }
 
+    async useDatabases() {
+        await AppDataSource.initialize();
+    }
+
     useRouters() {
         useExpressServer(this.app, {
             controllers: [],
             middlewares: [CustomErrorHandler],
             defaultErrorHandler: false,
         });
-
     }
 
     async init() {
         this.useMiddlewares();
-        this.useRouters()
+        this.useRouters();
 
-        this.app.listen(this.port);
-        this.logger.useLog(`Server started on the port: http://localhost:${this.port}`)
+        try {
+            await this.useDatabases();
+            this.app.listen(this.port);
+            this.logger.useLog(`Server started on the port: http://localhost:${this.port}`)
+        } catch (error) {
+            if (error instanceof TypeORMError) {
+                this.logger.useError(`[Database error] ${error.name}`);
+            } else if (error instanceof Error) {
+                this.logger.useError(`[Server error] ${error.name}`);
+            }
+        }
+
     }
 }
