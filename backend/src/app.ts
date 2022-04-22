@@ -9,6 +9,7 @@ import { CustomLogger } from "./middlewares/Logger/Logger.service";
 import { AppDataSource } from "./database/index";
 
 import { MealController } from "./meal/Meal.controller";
+import { AdminController } from "./admin/admin.controller";
 import { join } from "path";
 import { cwd } from "process";
 
@@ -75,7 +76,7 @@ export class App {
 
     private useRouters() {
         useExpressServer(this.app, {
-            controllers: [MealController],
+            controllers: [MealController, AdminController],
             middlewares: [CustomErrorHandler],
             defaultErrorHandler: false,
         });
