@@ -1,21 +1,31 @@
 import { Request, Response } from "express";
-import { Body, Controller, Get, Post, Req, Res } from "routing-controllers";
-import { IAddMealDTO, IAddMealReturn, VAddMealDTO } from "./Meal.interface";
+import { Body, Controller, Get, Param, Post, Req, Res } from "routing-controllers";
+import { IAddMealDTO, IAddMealReturn, IReturnMealsPaganation, IReturnSingleGame, VAddMealDTO, VPaganationDTO } from "./Meal.interface";
 import { MealService } from "./Meal.service";
 
 /**
- TODO Features
- * Add new meal
- * Get all meals
- * Get meals by day
- * Get meal by id
+ DONE Features
+ * Add new meal - Done
+ * Get all meals - Done
+ * Get meals by day - Done
+ * Get meal by id - Done
  */
 
 @Controller("/meals")
 export class MealController {
     @Post("/add")
-    async name(@Body() dataDTO: VAddMealDTO, @Req() req: Request, @Res() res: Response): Promise<IAddMealReturn> {
+    async addNewMeal(@Body() dataDTO: VAddMealDTO, @Req() req: Request, @Res() res: Response): Promise<IAddMealReturn> {
         // TODO Add JWT validation
+        const token = req.get("Authorization")?.split(" ")[1];
+
+        if (!token) {
+            return {
+                code: 400,
+                msg: "Meal was not added",
+                error: "Authorization failed"
+            }
+        }
+
         const image = req.file;
 
         if (!image) {
@@ -37,16 +47,38 @@ export class MealController {
             price: +dataDTO.price,
             category: dataDTO.category,
             isAvailable: isAvailable,
-            days: days
+            days: days,
+            token: token
         }
 
-        const serviceData = await MealService.addNewMeal(mealDTO)
+        const serviceData = await MealService.addNewMeal(mealDTO);
+        res.status(serviceData.code);
 
         return serviceData;
     }
 
-    @Get("/meals")
-    getAll() {
-        return { msg: "meals" }
+    @Get("/meal/:mealId")
+    async getSingleMeal(@Param("mealId") mealId: string, @Res() res: Response): Promise<IReturnSingleGame> {
+        const id = +mealId;
+        const data = await MealService.getSingleMeal(id);
+        res.status(data.code);
+
+        return data
+    }
+
+    @Post("/day/:dayName")
+    async getMealsByDay(@Param("dayName") dayName: string, @Body() paganationDTO: VPaganationDTO, @Res() res: Response) {
+        const data = await MealService.getMealsByDay(dayName, paganationDTO)
+
+        res.status(data.code);
+        return data
+    }
+
+    @Post("/all")
+    async getAll(@Body() paganationDTO: VPaganationDTO, @Res() res: Response): Promise<IReturnMealsPaganation> {
+        const data = await MealService.getAllMeals(paganationDTO);
+        res.status(data.code);
+
+        return data;
     }
 }
