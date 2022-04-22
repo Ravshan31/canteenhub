@@ -3,6 +3,7 @@ import { Meal } from "./entries/Meal";
 import { Day } from "./entries/Day";
 import { Category } from "./entries/Category";
 import { Admin } from "./entries/Admin";
+import { Order } from "./entries/Order";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -10,7 +11,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DATABASE_NAME!,
     username: process.env.DATABASE_USER!,
     password: process.env.DATABASE_PASS!,
-    entities: [Meal, Day, Category, Admin],
+    entities: [Meal, Day, Category, Admin, Order],
     synchronize: true,
     logging: false,
 })
