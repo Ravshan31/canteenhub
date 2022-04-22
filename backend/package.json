@@ -12,7 +12,6 @@
   "keywords": [],
   "license": "ISC",
   "dependencies": {
-    "@types/nodemailer": "^6.4.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "class-transformer": "^0.3.1",
@@ -37,6 +36,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/multer": "^1.4.7",
     "@types/node": "^17.0.23",
+    "@types/nodemailer": "^6.4.4",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "eslint": "^8.12.0",
