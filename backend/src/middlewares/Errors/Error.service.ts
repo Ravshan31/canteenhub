@@ -40,6 +40,7 @@ export class CustomErrorHandler implements ExpressErrorMiddlewareInterface {
 
         logger.useError(`[${request.method}] ${request.path}`);
 
+        console.log(error)
         next();
     }
 }
