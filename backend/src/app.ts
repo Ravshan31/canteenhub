@@ -1,17 +1,18 @@
+import { join } from "path";
+import { cwd } from "process";
 import express, { Express, NextFunction, Request, Response } from "express";
 import cors from "cors";
 import multer from "multer";
-import { TypeORMError } from "typeorm";
 import { useExpressServer } from "routing-controllers";
-import { CustomErrorHandler } from "./middlewares/Errors/Error.service";
 import { ICustomLogger } from "./middlewares/Logger/Logger.interface";
 import { CustomLogger } from "./middlewares/Logger/Logger.service";
+import { CustomErrorHandler } from "./middlewares/Errors/Error.service";
 import { AppDataSource } from "./database/index";
+import { TypeORMError } from "typeorm";
 
 import { MealController } from "./meal/Meal.controller";
 import { AdminController } from "./admin/admin.controller";
-import { join } from "path";
-import { cwd } from "process";
+import { OrderController } from "./order/Order.controller";
 
 export class App {
     app: Express;
@@ -76,7 +77,7 @@ export class App {
 
     private useRouters() {
         useExpressServer(this.app, {
-            controllers: [MealController, AdminController],
+            controllers: [MealController, AdminController, OrderController],
             middlewares: [CustomErrorHandler],
             defaultErrorHandler: false,
         });
