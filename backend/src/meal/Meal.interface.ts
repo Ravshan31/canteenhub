@@ -1,12 +1,22 @@
 import { IsBooleanString, IsJSON, IsNumber, IsNumberString, IsString, MinLength } from "class-validator";
 import { Meal } from "../database/entries/Meal";
 
-export const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-
 interface IReturnBase {
     code: number;
     msg: string;
     error?: string;
+}
+
+export interface IReturnSingleGame extends IReturnBase {
+    data?: Meal;
+}
+
+export interface IReturnMealsPaganation extends IReturnBase {
+    data?: Meal[];
+}
+
+export interface IReturnMealsByDay extends IReturnBase {
+    data?: Meal[];
 }
 
 export interface IAddMealDTO {
@@ -46,18 +56,6 @@ export class VAddMealDTO {
     isAvailable!: string;
 
     image!: Express.Multer.File;
-}
-
-export interface IReturnSingleGame extends IReturnBase {
-    data?: Meal;
-}
-
-export interface IReturnMealsPaganation extends IReturnBase {
-    data?: Meal[];
-}
-
-export interface IReturnMealsByDay extends IReturnBase {
-    data?: Meal[];
 }
 
 export class VPaganationDTO {

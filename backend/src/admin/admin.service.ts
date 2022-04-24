@@ -1,8 +1,9 @@
-import { ILoginDataDTO, ILoginReturnData, VLoginDataDTO, VVerifyLoginDTO } from "./admin.interface";
-import { AdminRepository } from "../database";
+import { createTransport } from "nodemailer";
 import bcrypt from 'bcryptjs';
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
-import { createTransport } from "nodemailer";
+import { AdminRepository } from "../database";
+import { ILoginReturnData, IVerityLoginReturn, VLoginDataDTO, VVerifyLoginDTO } from "./admin.interface";
+
 declare module 'jsonwebtoken' {
     export interface EmailCodeJwtPayload extends jwt.JwtPayload {
         code: number,
@@ -10,9 +11,8 @@ declare module 'jsonwebtoken' {
     }
 }
 
-
 export class AdminService {
-    static async login(dataDTO: ILoginDataDTO): Promise<ILoginReturnData> {
+    static async login(dataDTO: VLoginDataDTO): Promise<ILoginReturnData> {
         const { email: givenEmail, password: givenPassword } = dataDTO;
         try {
             const isFoundEmail = await AdminRepository.findOneBy({ email: givenEmail });
@@ -103,7 +103,7 @@ export class AdminService {
         }
     }
 
-    static async verifyLogin(dataDTO: VVerifyLoginDTO) {
+    static async verifyLogin(dataDTO: VVerifyLoginDTO): Promise<IVerityLoginReturn> {
         const { email, password, emailCode } = dataDTO;
 
         try {

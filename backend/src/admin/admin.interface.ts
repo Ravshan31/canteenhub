@@ -1,17 +1,17 @@
 import { IsEmail, IsNumberString, MinLength } from "class-validator";
 
-// TODO CREATE TYPES FOR FUNCTIONS
-
-export interface ILoginDataDTO {
-    email: string;
-    password: string;
-}
-
-export interface ILoginReturnData {
+export interface IBaseLoginReturn {
     code: number;
     msg: string;
-    verifyCode?: string;
     error?: string;
+}
+
+export interface ILoginReturnData extends IBaseLoginReturn {
+    verifyCode?: string;
+}
+
+export interface IVerityLoginReturn extends IBaseLoginReturn {
+    token?: string;
 }
 
 export class VLoginDataDTO {
@@ -28,7 +28,8 @@ export class VVerifyLoginDTO {
 
     @MinLength(6, { message: "Given password is too short" })
     password!: string;
-    
+
+    @MinLength(6, { message: "Given verification code is too short" })
     @IsNumberString(undefined, { message: "Given verification code is incorrect" })
     emailCode!: string;
 }

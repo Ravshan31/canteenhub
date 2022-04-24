@@ -1,8 +1,8 @@
+import jwt, { JsonWebTokenError } from "jsonwebtoken";
 import { CategoryRepository, DayRepository, MealRepository } from "../database";
 import { Meal } from "../database/entries/Meal";
-import { IAddMealDTO, IAddMealReturn, IReturnSingleGame, VPaganationDTO } from "./Meal.interface";
 import { imageDeleteHandler } from "./Meal.handlers";
-import jwt, { JsonWebTokenError } from "jsonwebtoken";
+import { IAddMealDTO, IAddMealReturn, IReturnMealsByDay, IReturnMealsPaganation, IReturnSingleGame, VPaganationDTO } from "./Meal.interface";
 
 export class MealService {
     static async addNewMeal(dataDTO: IAddMealDTO): Promise<IAddMealReturn> {
@@ -104,7 +104,7 @@ export class MealService {
         }
     }
 
-    static async getAllMeals(paganationData: VPaganationDTO) {
+    static async getAllMeals(paganationData: VPaganationDTO): Promise<IReturnMealsPaganation> {
         const { skip, take } = paganationData;
 
         try {
@@ -130,7 +130,7 @@ export class MealService {
         }
     }
 
-    static async getMealsByDay(dayName: string, paganationData: VPaganationDTO) {
+    static async getMealsByDay(dayName: string, paganationData: VPaganationDTO): Promise<IReturnMealsByDay> {
         try {
             const dayData = await DayRepository.findOneBy({ name: dayName });
 
