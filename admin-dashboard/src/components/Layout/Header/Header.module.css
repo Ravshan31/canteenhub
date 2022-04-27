@@ -1,0 +1,49 @@
+.header {
+    padding: 20px 0;
+    background: var(--baseColor5);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navLink {
+    --font-size: 22px;
+    font-size: var(--font-size);
+    display: flex;
+    align-items: center;
+    color: var(--baseColor1);
+    font-weight: 500;
+}
+
+.navLink:hover {
+    color: var(--baseColor1);
+}
+
+.navLink span {
+    line-height: 1.2;
+}
+
+.navLink svg {
+    margin-right: 7px;
+    font-size: calc(var(--font-size)*2);
+}
+
+.navSign {
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    background: var(--baseColor1);
+    color: var(--baseColor4);
+    padding: 13px 30px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.navSign svg {
+    margin-right: 5px;
+    font-size: 20px;
+}

@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "next/core-web-vitals"
+  ],
+  "root": true,
+  "rules": {
+    "no-var": "error",
+    "prefer-rest-params": "warn",
+    "eqeqeq": "error",
+    "default-case": "error",
+    "prefer-const": "error",
+    "no-duplicate-imports": "warn",
+    "no-unused-vars": "warn"
+  }
+}
