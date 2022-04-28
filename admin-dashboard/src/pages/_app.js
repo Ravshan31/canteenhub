@@ -9,7 +9,9 @@ function MyApp({ Component, pageProps }) {
     <SSRProvider>
       <CookiesProvider>
         <Header />
-        <Component {...pageProps} />
+        <main>
+          <Component {...pageProps} />
+        </main>
       </CookiesProvider>
     </SSRProvider>
   )
