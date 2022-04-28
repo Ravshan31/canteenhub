@@ -149,7 +149,9 @@ export class AdminService {
                 }
             }
 
-            const jwtToken = jwt.sign({ sub: adminAccount.id, adminEmail: adminAccount.email }, process.env.JWT_TOKEN!)
+            const jwtToken = jwt.sign({ sub: adminAccount.id, adminEmail: adminAccount.email }, process.env.JWT_TOKEN!, {
+                expiresIn: "2h"
+            })
 
             return {
                 code: 200,
